@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="header">
+        <div class="navbar">
+        <div class="container">
+            <h2>me<span>als</span></h2>
+        
+            <ul>
+                
+                <li class="actve"><a href="index.html"> Home</a></li>
+                <li><a href="breakfast.html">breakfast</a></li>
+                <li><a href="lunch.html">lunch</a></li>
+                <li><a href="dinner.html">dinner</a></li>
+                <li><a href="shakes.html">shakes</a></li>
+                <li><a href="order.html">order</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <div id="body">
+            <div id="form">
+                <label for="userName">User Name: </label>
+                <input type="text" name="userName"><br>
+                <label for="userName">Mobile Number: </label>
+                <input type="text" name="Mobile"><br>
+                <label for="userName">your Meals: </label>
+                <select name="meaals" id="meals">
+                    <option value="">select your catogery</option>
+                </select>
+                <select name="meal" id="meal">
+                    <option value="">please select your meal</option>
+                </select>
+                <br>
+                <input type="submit" id="btn" style="border-radius: 2em;"><br>
+        </div>
+    </div>
+    <script>
+        var select = document.getElementById("meals");
+        var specMeal = document.getElementById("meal");
+        var Inputs = document.getElementsByTagName("input");
+        var nameInp=Inputs[0];
+        var mobileInp=Inputs[1];
+        var submitInp=Inputs[2];
+        var imgSrc;
+        var mealTitle;
+        var parse;
+        var xhr = new XMLHttpRequest();
+        xhr.open("get","http://localhost:3000/db");
+        xhr.send();
+        xhr.addEventListener("readystatechange",function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                     parse = JSON.parse(xhr.responseText);
+                  for(key in parse){
+                      var opt = document.createElement("option");
+                      opt.innerText=key;
+                      opt.setAttribute("value",key);
+                      select.appendChild(opt);
+                  }
+            }
+        })
+        select.addEventListener("change",function(){
+                        specMeal.innerHTML="";
+                        for(key in parse[this.value]){
+                        var meal = document.createElement("option");
+                        meal.innerHTML=parse[this.value][key].title;
+                        meal.setAttribute('value',`${parse[this.value][key].img}|${parse[this.value][key].title}`);
+                        specMeal.appendChild(meal);   
+                        }
+                    })
+        specMeal.addEventListener("click",function(){
+            var s = this.value;
+            var values = this.value.split('|');
+            mealTitle = values[1];
+            imgSrc = values[0];          
+        })
+        var reg = new RegExp(/^[a-zA-Z ]{2,30}$/);
+        var reg2 = new RegExp(/^[0-9]{11}$/);
+       function tests(nm,mob){
+        if(!reg.test(nm)){
+            alert("Invalid UserName!");
+        }else if(!reg2.test(mob)){
+            alert("Invalid Mobile Number!");
+        }else{
+            return true;
+        }
+       }
+       
+        submitInp.addEventListener("click",function(){
+            if(tests(nameInp.value,mobileInp.value) && specMeal.value){
+                localStorage.setItem("userName",nameInp.value);
+                localStorage.setItem("mobileNumber",mobileInp.value);
+                localStorage.setItem("meal",mealTitle);
+                localStorage.setItem("img",imgSrc);
+                window.location.href= "ordered.html"
+           }
+        })
+
+
+    </script>
+    
+</body>
+</html>
+</body>
+</html>

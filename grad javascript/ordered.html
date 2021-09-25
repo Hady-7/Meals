@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url(./images/pexels-ryutaro-tsukata-5220092.jpg);
+            background-size:cover ;
+            background-position: center;
+            }
+        img{
+            border-radius: 2em;
+        }
+    </style>
+</head>
+<body>
+        <div id="ordered">
+            <br> <button onclick="back()">back</button>
+         </div>
+    <script>
+        
+        var name = localStorage.getItem("userName");
+        var mobile = localStorage.getItem("mobileNumber");
+        var meal = localStorage.getItem("meal");
+        var img = localStorage.getItem("img");
+        var div = document.querySelector("div");
+        var h1 = document.createElement("h1");
+        var h2 = document.createElement("p");
+        var h3 = document.createElement("p");
+        var h4 = document.createElement("p");
+        var imgs = document.createElement("img");
+        h1.innerText= "Welcome " +name;
+        h2.innerText= "Your number is "+mobile;
+        h3.innerText= "Your order is "+meal;
+        h4.innerText= "Thank you for your time";
+        imgs.src= img;
+        div.prepend(h4);
+        div.prepend(imgs);
+        div.prepend(h3);
+        div.prepend(h2);
+        div.prepend(h1);
+
+
+        function back(){
+            window.location.href = "order.html";
+        }
+    </script>
+</body>
+</html>

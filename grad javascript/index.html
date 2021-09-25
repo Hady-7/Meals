@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        #bodys{
+            text-align: center;
+            
+        }
+        #bodys button{
+            background-color: #fff;
+            color: #000;
+            border-radius: 2em;
+            margin-top: 1em;
+            cursor: pointer;
+        }
+        #bodys button:hover{
+            color: #2ecc71;
+        }
+        img{
+            max-width: 200px;
+            border-radius: 2em;
+            max-height: 150px;
+
+        }
+    </style>
+</head>
+<body style="background-color: #2ecc71;">
+    
+    <div class="header">
+        <div class="navbar">
+        <div class="container">
+            <h2>me<span>als</span></h2>
+            <ul>
+                <li class="actve"><a href="index.html"> Home</a></li>
+                <li><a href="breakfast.html">breakfast</a></li>
+                <li><a href="lunch.html">lunch</a></li>
+                <li><a href="dinner.html">dinner</a></li>
+                <li><a href="shakes.html">shakes</a></li>
+                <li><a href="order.html">order</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <div id="bodys">
+       
+        <button>Search <input type="text" id="inp"/></button>
+    </div>
+    <div id="divsCont">
+
+    </div>
+    <script>
+        var parse;
+        var xhr = new XMLHttpRequest();
+        xhr.open("get","http://localhost:3000/db");
+        xhr.send();
+        xhr.addEventListener("readystatechange",function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                     parse = JSON.parse(xhr.responseText);
+                        for (key in parse){
+                        Display(parse[key]);
+                        }
+            }
+        })
+        
+        var result;
+        var req;
+        var id;
+        document.querySelector("button").addEventListener("change",function() {
+        id=document.getElementById("inp").value;
+        req=new XMLHttpRequest();
+        req.open("GET","http://localhost:3000/"+id);
+        req.send();
+        req.onreadystatechange=function(){
+        if(req.readyState==4&&req.status==200){
+            result=JSON.parse(req.responseText);
+            parent.innerHTML='';
+            dis();     
+        }
+        }
+        })
+
+        var divp ;
+        var parent
+        function Display(e){
+            parent=document.getElementById("divsCont");
+            divp =document.createElement("div");
+
+            parent.appendChild(divp);
+            divp.setAttribute("style","margin:auto;width:60%;background-color: #2ecc71;text-align:center;border-radius:2em;");
+           for (var i = 0; i < e.length; i++) {
+            var div =document.createElement("div");
+            div.setAttribute("style","border-radius:2em;background-color: #fff;margin:1em;padding:.5em")
+            divp.appendChild(div);
+            var h1 = document.createElement("h4");
+            h1.innerText=e[i].title;
+            div.appendChild(h1);
+            var img = document.createElement("img");
+            img.src=e[i].img;
+            div.appendChild(img);
+            var p = document.createElement("p");
+            p.innerText=e[i].desc;
+            div.appendChild(p);     
+            var span = document.createElement("span");
+            span.innerText=e[i].price;
+            div.appendChild(span);         
+        }
+        }
+     
+
+      function dis() {
+        var sercDiv =document.createElement("div");
+        parent.appendChild(sercDiv);
+        sercDiv.setAttribute("style","margin:auto;width:60%;background-color: #2ecc71;text-align:center;border-radius:2em;");
+        for(var i in result) {
+            var div =document.createElement("div");
+            div.setAttribute("style","border-radius:2em;background-color: #fff;margin:1em;padding:.5em")
+            sercDiv.appendChild(div);
+            var h1 = document.createElement("h4");
+            h1.innerText=result[i].title;
+            div.appendChild(h1);
+            var img = document.createElement("img");
+            img.src=result[i].img;
+            div.appendChild(img);
+            var p = document.createElement("p");
+            p.innerText=result[i].desc;
+            div.appendChild(p);     
+            var span = document.createElement("span");
+            span.innerText=result[i].price;
+            div.appendChild(span);         
+        }
+    }
+    
+    </script>
+</body>
+</html>

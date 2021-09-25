@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        img{
+            width: 200px;
+            border-radius: 2em;
+        }
+        body{
+            text-align: center;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <div class="navbar">
+        <div class="container">
+            <h2>me<span>als</span></h2>
+        
+            <ul>
+                <li class="actve"><a href="index.html"> Home</a></li>
+                <li><a href="breakfast.html">breakfast</a></li>
+                <li><a href="lunch.html">lunch</a></li>
+                <li><a href="dinner.html">dinner</a></li>
+                <li><a href="shakes.html">shakes</a></li>
+                <li><a href="order.html">order</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open("get","http://localhost:3000/lunch");
+        xhr.send();
+        xhr.addEventListener("readystatechange",function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                    var parse = JSON.parse(xhr.responseText);
+                    Display(parse);
+            }
+        })
+        function Display(e){
+           for (var i = 0; i < e.length; i++) {
+            var div =document.createElement("div");
+            div.setAttribute("style","width:50%; margin:.5em auto;background-color: #2ecc71;border-radius: 1.8em;padding:.5em");
+            document.body.appendChild(div);
+            var h1 = document.createElement("h1");
+            h1.innerText=e[i].title;
+            div.appendChild(h1);
+            var img = document.createElement("img");
+            img.src=e[i].img;
+            div.appendChild(img);
+            var p = document.createElement("p");
+            p.innerText=e[i].desc;
+            div.appendChild(p);        
+            var span = document.createElement("span");
+            span.innerText=e[i].price;
+            div.appendChild(span);        
+        }
+        }
+    </script>
+    
+</body>
+</html>
